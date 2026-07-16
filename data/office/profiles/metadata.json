@@ -1,0 +1,17 @@
+{
+  "dataset_config": "Office_Products_data",
+  "dataset_key": "office",
+  "dimension": 384,
+  "empty_item_fallback": "global train review profile",
+  "empty_user_fallback": "global train review profile",
+  "encoder": "sentence-transformers/all-MiniLM-L6-v2",
+  "encoder_trainable": false,
+  "item_num": 2422,
+  "items_with_train_reviews": 2420,
+  "profile_source": "train/Train.csv reviews only",
+  "review_embedding_normalization": "l2",
+  "target_review_used": false,
+  "train_reviews": 42611,
+  "user_num": 4907,
+  "users_with_train_reviews": 4905
+}

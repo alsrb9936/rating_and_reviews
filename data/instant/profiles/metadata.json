@@ -1,0 +1,17 @@
+{
+  "dataset_config": "Amazon_Instant_Video_data",
+  "dataset_key": "instant",
+  "dimension": 384,
+  "empty_item_fallback": "global train review profile",
+  "empty_user_fallback": "global train review profile",
+  "encoder": "sentence-transformers/all-MiniLM-L6-v2",
+  "encoder_trainable": false,
+  "item_num": 1687,
+  "items_with_train_reviews": 1685,
+  "profile_source": "train/Train.csv reviews only",
+  "review_embedding_normalization": "l2",
+  "target_review_used": false,
+  "train_reviews": 29700,
+  "user_num": 5132,
+  "users_with_train_reviews": 5130
+}

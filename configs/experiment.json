@@ -1,0 +1,101 @@
+{
+  "project": {
+    "name": "recsys26-user-calibration",
+    "paper": "Why Do CF and Review Models Disagree? A User-Specific Calibration Analysis",
+    "seeds": [7, 11, 17, 29, 42, 53, 71, 123, 2023, 3407]
+  },
+  "training": {
+    "epochs": 200,
+    "early_stopping_patience": 10,
+    "early_stopping_metric": "validation_mse_raw_prediction",
+    "min_delta": 0.0,
+    "learning_rate": 0.002,
+    "scheduler": {
+      "name": "StepLR",
+      "step_size": 5,
+      "gamma": 0.8
+    },
+    "loss": "mse",
+    "deterministic_algorithms": true,
+    "num_workers": 0
+  },
+  "encoders": {
+    "review": {
+      "model": "sentence-transformers/all-MiniLM-L6-v2",
+      "dimension": 384,
+      "max_length": 256,
+      "l2_normalize_review_embeddings": true,
+      "l2_normalize_profiles": true,
+      "source": "training reviews only"
+    },
+    "sentiment": {
+      "model": "cardiffnlp/twitter-roberta-large-topic-sentiment-latest",
+      "max_length": 512,
+      "score": "expected_1_to_5",
+      "labels": [
+        "strongly negative",
+        "negative",
+        "negative or neutral",
+        "positive",
+        "strongly positive"
+      ]
+    }
+  },
+  "models": {
+    "neumf": {
+      "embedding_dimension": 64,
+      "batch_size": 128,
+      "test_prediction_clamp": null,
+      "hyperparameters": {
+        "instant": {"dropout": 0.5, "weight_decay": 0.0001},
+        "office": {"dropout": 0.6, "weight_decay": 0.0001},
+        "digital": {"dropout": 0.5, "weight_decay": 0.0001}
+      }
+    },
+    "reviewonly": {
+      "batch_size": 512,
+      "projection_dimensions": [384, 256, 128],
+      "prediction_dimensions": [256, 256, 64, 1],
+      "matching": "concatenate_user_and_item",
+      "test_prediction_clamp": [1.0, 5.0],
+      "hyperparameters": {
+        "instant": {"dropout": 0.5, "weight_decay": 0.0001},
+        "office": {"dropout": 0.4, "weight_decay": 0.0001},
+        "digital": {"dropout": 0.4, "weight_decay": 0.00001}
+      }
+    }
+  },
+  "bias": {
+    "minimum_training_interactions": 5,
+    "shrinkage_lambda": 5.0,
+    "case_threshold_tau": 0.5,
+    "transfer_epsilon": 0.05,
+    "rating_bias": "item_adjusted",
+    "review_tone_bias": "rating_conditioned_and_item_adjusted",
+    "standardization": "eligible_users_within_dataset",
+    "relative_calibration": "z_review_bias_minus_z_rating_bias"
+  },
+  "datasets": {
+    "instant": {
+      "label": "Instant Video",
+      "prefix": "iv",
+      "user_count": 5132,
+      "item_count": 1687,
+      "rows": {"train": 29700, "val": 3713, "test": 3713}
+    },
+    "office": {
+      "label": "Office Products",
+      "prefix": "op",
+      "user_count": 4907,
+      "item_count": 2422,
+      "rows": {"train": 42611, "val": 5324, "test": 5323}
+    },
+    "digital": {
+      "label": "Digital Music",
+      "prefix": "dm",
+      "user_count": 5543,
+      "item_count": 3570,
+      "rows": {"train": 51764, "val": 6471, "test": 6471}
+    }
+  }
+}

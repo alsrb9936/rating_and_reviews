@@ -1,0 +1,17 @@
+{
+  "dataset_config": "Digital_Music_data",
+  "dataset_key": "digital",
+  "dimension": 384,
+  "empty_item_fallback": "global train review profile",
+  "empty_user_fallback": "global train review profile",
+  "encoder": "sentence-transformers/all-MiniLM-L6-v2",
+  "encoder_trainable": false,
+  "item_num": 3570,
+  "items_with_train_reviews": 3568,
+  "profile_source": "train/Train.csv reviews only",
+  "review_embedding_normalization": "l2",
+  "target_review_used": false,
+  "train_reviews": 51764,
+  "user_num": 5543,
+  "users_with_train_reviews": 5541
+}
